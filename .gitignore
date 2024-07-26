@@ -23,6 +23,7 @@ build/
 
 # Sistema operativo
 .DS_Store
+./config.js
 Thumbs.db
 
 # Archivos temporales
