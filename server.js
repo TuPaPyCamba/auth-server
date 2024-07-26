@@ -72,12 +72,7 @@ server.post('/login', async (req, res) => {
     }
 });
 
-// Inicializacion del Servidor 
-server.listen(PORT, () => {
-
-    console.log(`SERVER: `.green + `Authentication services running correctly on the following port \n \n service rute:  ` + `http://localhost:${PORT} \n`.blue)
-})
-
+// Validacion de campos
 class Validation {
     static username(username) {
         if (typeof username !== 'string') throw new Error('username must be a string')
@@ -89,3 +84,9 @@ class Validation {
         if (password.length < 8) throw new Error('password must be at least 8 characters long')
     }
 }
+
+// Inicializacion del Servidor 
+server.listen(PORT, () => {
+
+    console.log(`SERVER: `.green + `Authentication services running correctly on the following port \n \n service rute:  ` + `http://localhost:${PORT} \n`.blue)
+})
