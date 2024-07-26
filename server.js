@@ -41,6 +41,23 @@ server.post('/register', async (req, res) => {
     }
 });
 
+server.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        const user = await User.findOne({ username });
+        if (!user) return res.status(400).send({ error: 'Usuario no encontrado' });
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return res.status(400).send({ error: 'Contraseña incorrecta' });
+
+        // Aquí puedes manejar la creación de una sesión si es necesario
+        res.send({ message: 'Inicio de sesión exitoso', userId: user._id });
+    } catch (error) {
+        res.status(500).send({ error: 'Error en el servidor', details: error.message });
+    }
+});
+
 // Inicializacion del Servidor 
 server.listen(PORT, () => {
 
