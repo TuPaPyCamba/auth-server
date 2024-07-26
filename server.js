@@ -43,8 +43,16 @@ server.post("/register", async (req, res) => {
         Validation.password(password);
 
         const userExistence = await User.findOne({ username });
-        if (userExistence)
+        if (userExistence) {
+            const errorMessage = "username already exists";
+            console.log(
+                `SERVER:`.green +
+                ` Error when trying to create a new User, with the following data \n Username: ${username} \n Password: ***** \n ` +
+                `ESTATUS: (400) `.red +
+                `${errorMessage} \n`
+            );
             return res.status(400).send({ error: "username already exists" });
+        }
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -53,7 +61,7 @@ server.post("/register", async (req, res) => {
         res.status(201).send({ message: "Usuario creado", userId: user._id });
         console.log(
             `SERVER:`.green +
-            ` New user created \n ID: ${user._id} \n Username: ${username} \n Hashed Password: ${hashedPassword} \n`
+            ` New user created \n ID: ${user._id} \n Username: ${username} \n HashedPassword: ${hashedPassword} \n`
         );
     } catch (error) {
         res
@@ -100,9 +108,11 @@ server.post("/login", async (req, res) => {
             return res.status(400).send({ error: errorMessage });
         }
 
-        // Aquí puedes crear la sesión si es necesario
         res.send({ message: "Inicio de sesión exitoso", userId: user._id });
-        console.log(`SERVER:`.green + ` A new session has been started, the session started is \n Username: ${username} \n`)
+        console.log(
+            `SERVER:`.green +
+            ` A new session has been started, the session started is \n Username: ${username} \n`
+        );
     } catch (error) {
         res
             .status(500)
