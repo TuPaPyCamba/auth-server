@@ -1,0 +1,30 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Entorno de desarrollo
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Directorios de construcción
+dist/
+build/
+
+# Editor específico
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos temporales
+*.tmp
+*.swp
