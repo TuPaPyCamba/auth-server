@@ -39,7 +39,7 @@ server.post('/register', async (req, res) => {
     } catch (error) {
         res.status(400).send({ error: 'Error al crear el usuario', details: error.message });
     }
-})
+});
 
 // Inicializacion del Servidor 
 server.listen(PORT, () => {
