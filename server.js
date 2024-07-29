@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import "colors";
 import { PORT, MONGODB_URI, SECRET } from "./config.js";
 import User from "./models/user.js";
+import MongoStore from "connect-mongo";
 
 const server = express();
 
@@ -31,6 +32,13 @@ server.use(
         secret: SECRET,
         resave: false,
         saveUninitialized: true,
+        store: MongoStore.create({
+            mongoUrl: MONGODB_URI,
+            collectionName: 'sessions',
+        }),
+        cookie: {
+            maxAge: 180 * 60 * 1000
+        }
     })
 );
 
