@@ -7,6 +7,7 @@ import "colors";
 import { PORT, MONGODB_URI, SECRET } from "./config.js";
 import User from "./models/user.js";
 import MongoStore from "connect-mongo";
+import nodemailer from 'nodemailer'
 
 const server = express();
 
@@ -44,18 +45,31 @@ server.use(
 
 // Ruta para registrar un nuevo usuario
 server.post("/register", async (req, res) => {
-    const { username, password } = req.body;
+    const { username, password, email } = req.body;
 
     try {
         Validation.username(username);
         Validation.password(password);
+        Validation.email(email)
+
+        const emailExistence = await User.findOne({ email })
+        if (emailExistence) {
+            const errorMessage = "email address in use";
+            console.log(
+                `SERVER:`.green +
+                ` Error when trying to create a new User, with the following data \n Username: ${username} \n Email: ${email} \n Password: ***** \n ` +
+                `ESTATUS: (400) `.red +
+                `${errorMessage} \n`
+            );
+            return res.status(400).send({ error: "email address in use" });
+        }
 
         const userExistence = await User.findOne({ username });
         if (userExistence) {
             const errorMessage = "username already exists";
             console.log(
                 `SERVER:`.green +
-                ` Error when trying to create a new User, with the following data \n Username: ${username} \n Password: ***** \n ` +
+                ` Error when trying to create a new User, with the following data \n Username: ${username} \n Email: ${email} \n Password: ***** \n ` +
                 `ESTATUS: (400) `.red +
                 `${errorMessage} \n`
             );
@@ -63,13 +77,33 @@ server.post("/register", async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
+        const verificationToken = crypto.randomBytes(32).toString('hex')
 
-        const user = new User({ username, password: hashedPassword });
+        const mailOptions = {
+            to: email,
+            from: 'fercambafcm@gamil.com',
+            subject: `Por favor verifica tu email haciendo clic en el siguiente enlace:\n\n
+            http://localhost:${PORT}/verify-email/${verificationToken}\n\n`
+        }
+
+
+        transporter.sendMail(mailOptions, (err, res) => {
+            if (err) {
+                console.error(`SERVER:`.green +
+                ` Error trying to send a validation email, with the following data \n Username: ${username} \n Email: ${email} \n Password: ***** \n ` +
+                `ESTATUS: (500) `.red +
+                `${err} \n`)
+                return res.status(500).send({message:"error sending mail"})
+            }
+            res.status(201).send({message:""})
+        })
+
+        const user = new User({ username, password: hashedPassword, email, verifi });
         await user.save();
         res.status(201).send({ message: "Usuario creado", userId: user._id });
         console.log(
             `SERVER:`.green +
-            ` New user created \n ID: ${user._id} \n Username: ${username} \n HashedPassword: ${hashedPassword} \n`
+            ` New user created \n ID: ${user._id} \n Username: ${username} \n Email: ${email} \n HashedPassword: ${hashedPassword} \n`
         );
     } catch (error) {
         res
@@ -77,7 +111,7 @@ server.post("/register", async (req, res) => {
             .send({ error: "Error al crear el usuario", details: error.message });
         console.log(
             `SERVER:`.green +
-            ` Error when trying to create a new User, with the following data \n Username: ${username} \n Password: ***** \n ` +
+            ` Error when trying to create a new User, with the following data \n Username: ${username} \n Email: ${email} \n Password: ***** \n ` +
             `ESTATUS: (400) `.red +
             `${error.message} \n`
         );
@@ -146,9 +180,9 @@ server.post('/logout', (req, res) => {
             );
             return res.status(500).send({ error: 'Error trying to log out', details: err.message })
         }
-        res.send({ message: 'Sesion cerrada con exito'})
+        res.send({ message: 'Sesion cerrada con exito' })
         console.log(`SERVER:`.green +
-                `session closed. \n `)
+            `session closed. \n `)
     })
 })
 
@@ -166,6 +200,14 @@ class Validation {
             throw new Error("password must be a string");
         if (password.length < 8)
             throw new Error("password must be at least 8 characters long");
+    }
+
+    static email(email) {
+        if (typeof email !== "string")
+            throw new Error("email must be a string");
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email))
+            throw new Error("email is not valid")
     }
 }
 

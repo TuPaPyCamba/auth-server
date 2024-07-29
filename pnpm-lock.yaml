@@ -32,6 +32,9 @@ importers:
       mongoose:
         specifier: 8.5.1
         version: 8.5.1
+      nodemailer:
+        specifier: 6.9.14
+        version: 6.9.14
       oauth2-server:
         specifier: 3.1.1
         version: 3.1.1
@@ -459,6 +462,10 @@ packages:
     peerDependenciesMeta:
       encoding:
         optional: true
+
+  nodemailer@6.9.14:
+    resolution: {integrity: sha512-Dobp/ebDKBvz91sbtRKhcznLThrKxKt97GI2FAlAyy+fk19j73Uz3sBXolVtmcXjaorivqsbbbjDY+Jkt4/bQA==}
+    engines: {node: '>=6.0.0'}
 
   nopt@5.0.0:
     resolution: {integrity: sha512-Tbj67rffqceeLpcRXrT7vKAN8CwfPeIBgM7E6iBkmKLV7bEMwpGgYLGv0jACUsECaa/vuxP0IjEont6umdMgtQ==}
@@ -1109,6 +1116,8 @@ snapshots:
   node-fetch@2.7.0:
     dependencies:
       whatwg-url: 5.0.0
+
+  nodemailer@6.9.14: {}
 
   nopt@5.0.0:
     dependencies:
