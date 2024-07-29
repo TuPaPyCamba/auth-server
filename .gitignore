@@ -5,6 +5,8 @@ yarn-error.log
 
 # Entorno de desarrollo
 .env
+
+# Ignorar el archivo de configuración
 config.js
 
 # Logs

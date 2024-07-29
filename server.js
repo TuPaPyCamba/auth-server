@@ -4,7 +4,7 @@ import session from "express-session";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import "colors";
-import { PORT, MONGODB_URI, SECRET } from "./config.js";
+import { PORT, MONGODB_URI, SECRET, GMAIL, GMAILPASS } from "./config.js";
 import User from "./models/user.js";
 import MongoStore from "connect-mongo";
 import nodemailer from 'nodemailer'
@@ -42,6 +42,15 @@ server.use(
         }
     })
 );
+
+// Configuracion de nodemailer
+const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: GMAIL,
+        pass: GMAILPASS
+    }
+})
 
 // Ruta para registrar un nuevo usuario
 server.post("/register", async (req, res) => {
