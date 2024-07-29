@@ -128,7 +128,7 @@ server.post("/login", async (req, res) => {
 
 // Ruta para cerrar sesion  
 server.post('/logout', (req, res) => {
-    req.session.destroy( err => {
+    req.session.destroy(err => {
         if (err) {
             console.log(
                 `SERVER:`.green +
@@ -136,8 +136,11 @@ server.post('/logout', (req, res) => {
                 `ESTATUS: (500)`.red +
                 ` Error trying to log out\n`
             );
-            return res.status(500).send({ error: 'Error trying to log out', details: err.message})
+            return res.status(500).send({ error: 'Error trying to log out', details: err.message })
         }
+        res.send({ message: 'Sesion cerrada con exito'})
+        console.log(`SERVER:`.green +
+                `session closed`)
     })
 })
 
