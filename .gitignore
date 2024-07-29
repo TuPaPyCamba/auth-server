@@ -5,6 +5,7 @@ yarn-error.log
 
 # Entorno de desarrollo
 .env
+./config.js
 
 # Logs
 logs
@@ -23,7 +24,6 @@ build/
 
 # Sistema operativo
 .DS_Store
-config.js
 Thumbs.db
 
 # Archivos temporales
