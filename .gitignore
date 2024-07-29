@@ -5,7 +5,7 @@ yarn-error.log
 
 # Entorno de desarrollo
 .env
-./config.js
+config.js
 
 # Logs
 logs
