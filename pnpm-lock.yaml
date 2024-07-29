@@ -9,28 +9,31 @@ importers:
   .:
     dependencies:
       bcrypt:
-        specifier: ^5.1.1
+        specifier: 5.1.1
         version: 5.1.1
       bcryptjs:
-        specifier: ^2.4.3
+        specifier: 2.4.3
         version: 2.4.3
       body-parser:
-        specifier: ^1.20.2
+        specifier: 1.20.2
         version: 1.20.2
       colors:
-        specifier: ^1.4.0
+        specifier: 1.4.0
         version: 1.4.0
+      connect-mongo:
+        specifier: 5.1.0
+        version: 5.1.0(express-session@1.18.0)(mongodb@6.7.0)
       express:
-        specifier: ^4.19.2
+        specifier: 4.19.2
         version: 4.19.2
       express-session:
-        specifier: ^1.18.0
+        specifier: 1.18.0
         version: 1.18.0
       mongoose:
-        specifier: ^8.5.1
+        specifier: 8.5.1
         version: 8.5.1
       oauth2-server:
-        specifier: ^3.1.1
+        specifier: 3.1.1
         version: 3.1.1
 
 packages:
@@ -74,6 +77,9 @@ packages:
   array-flatten@1.1.1:
     resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
 
+  asn1.js@5.4.1:
+    resolution: {integrity: sha512-+I//4cYPccV8LdmBLiX8CYvf9Sp3vQsrqu2QNXRcrbiWvcx/UdlFiqUJJzxRQxgsZmvhXhn4cSKeSmoFjVdupA==}
+
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
@@ -93,6 +99,9 @@ packages:
 
   bluebird@3.7.2:
     resolution: {integrity: sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==}
+
+  bn.js@4.12.0:
+    resolution: {integrity: sha512-c98Bf3tPniI+scsdk237ku1Dc3ujXQTSgyiPUDEOe7tRkhrqridvh8klBv0HCEso1OLOYcHuCv/cS6DNxKH+ZA==}
 
   body-parser@1.20.2:
     resolution: {integrity: sha512-ml9pReCu3M61kGlqoTm2umSXTlRTuGTx0bfYj+uIUKKYycG5NtSbeetV3faSU6R7ajOPw0g/J1PvK4qNy7s5bA==}
@@ -135,6 +144,13 @@ packages:
 
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
+
+  connect-mongo@5.1.0:
+    resolution: {integrity: sha512-xT0vxQLqyqoUTxPLzlP9a/u+vir0zNkhiy9uAdHjSCcUUf7TS5b55Icw8lVyYFxfemP3Mf9gdwUOgeF3cxCAhw==}
+    engines: {node: '>=12.9.0'}
+    peerDependencies:
+      express-session: ^1.17.1
+      mongodb: '>= 5.1.0 < 7'
 
   console-control-strings@1.1.0:
     resolution: {integrity: sha512-ty/fTekppD2fIwRvnZAVdeOiGd1c7YXEixbgJTNzqcxJWKQnjJ/V1bNEEE6hygpM3WjwHFUVK6HTjWSzV4a8sQ==}
@@ -316,6 +332,10 @@ packages:
     resolution: {integrity: sha512-C3iHfuGUXK2u8/ipq9LfjFfXFxAZMQJJq7vLS45r3D9Y2xQ/m4S8zaR4zMLFWh9AsNPXmcFfUDhTEO8UIC/V6Q==}
     engines: {node: '>=12.0.0'}
 
+  kruptein@3.0.6:
+    resolution: {integrity: sha512-EQJjTwAJfQkC4NfdQdo3HXM2a9pmBm8oidzH270cYu1MbgXPNPMJuldN7OPX+qdhPO5rw4X3/iKz0BFBfkXGKA==}
+    engines: {node: '>8'}
+
   lodash@4.17.19:
     resolution: {integrity: sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==}
 
@@ -349,6 +369,9 @@ packages:
     resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==}
     engines: {node: '>=4'}
     hasBin: true
+
+  minimalistic-assert@1.0.1:
+    resolution: {integrity: sha512-UtJcAD4yEaGtjPezWuO9wC4nwUnVH/8/Im3yEHQP4b67cXlD/Qr9hdITCU1xDbSEXg2XKNaP8jsReV7vQd00/A==}
 
   minimatch@3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
@@ -697,6 +720,13 @@ snapshots:
 
   array-flatten@1.1.1: {}
 
+  asn1.js@5.4.1:
+    dependencies:
+      bn.js: 4.12.0
+      inherits: 2.0.4
+      minimalistic-assert: 1.0.1
+      safer-buffer: 2.1.2
+
   balanced-match@1.0.2: {}
 
   basic-auth@2.0.1:
@@ -716,6 +746,8 @@ snapshots:
   bluebird@2.11.0: {}
 
   bluebird@3.7.2: {}
+
+  bn.js@4.12.0: {}
 
   body-parser@1.20.2:
     dependencies:
@@ -765,6 +797,15 @@ snapshots:
   colors@1.4.0: {}
 
   concat-map@0.0.1: {}
+
+  connect-mongo@5.1.0(express-session@1.18.0)(mongodb@6.7.0):
+    dependencies:
+      debug: 4.3.5
+      express-session: 1.18.0
+      kruptein: 3.0.6
+      mongodb: 6.7.0
+    transitivePeerDependencies:
+      - supports-color
 
   console-control-strings@1.1.0: {}
 
@@ -972,6 +1013,10 @@ snapshots:
 
   kareem@2.6.3: {}
 
+  kruptein@3.0.6:
+    dependencies:
+      asn1.js: 5.4.1
+
   lodash@4.17.19: {}
 
   make-dir@3.1.0:
@@ -993,6 +1038,8 @@ snapshots:
       mime-db: 1.52.0
 
   mime@1.6.0: {}
+
+  minimalistic-assert@1.0.1: {}
 
   minimatch@3.1.2:
     dependencies:

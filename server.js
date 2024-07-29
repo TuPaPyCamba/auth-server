@@ -140,7 +140,7 @@ server.post('/logout', (req, res) => {
         }
         res.send({ message: 'Sesion cerrada con exito'})
         console.log(`SERVER:`.green +
-                `session closed`)
+                `session closed. \n `)
     })
 })
 
