@@ -126,6 +126,21 @@ server.post("/login", async (req, res) => {
     }
 });
 
+// Ruta para cerrar sesion  
+server.post('/logout', (req, res) => {
+    req.session.destroy( err => {
+        if (err) {
+            console.log(
+                `SERVER:`.green +
+                ` Error when trying to log out, with the following data \n Username: ${username} \n Password: ***** \n ` +
+                `ESTATUS: (500)`.red +
+                ` Error trying to log out\n`
+            );
+            return res.status(500).send({ error: 'Error trying to log out', details: err.message})
+        }
+    })
+})
+
 // Validación de campos
 class Validation {
     static username(username) {
