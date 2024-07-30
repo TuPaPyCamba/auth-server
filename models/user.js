@@ -18,6 +18,14 @@ const userSchema = new mongoose.Schema({
         unique: true, 
         trim: true,
         match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    },
+    verificarionToken: {
+        type: String,
+        required: true,
+    },
+    isVerified: {
+        type: Boolean,
+        default: false,
     }
 }, { timestamps: true });
 

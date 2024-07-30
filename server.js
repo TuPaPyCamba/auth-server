@@ -4,10 +4,11 @@ import session from "express-session";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import "colors";
-import { PORT, MONGODB_URI, SECRET, GMAIL, GMAILPASS } from "./config.js";
+import { PORT, MONGODB_URI, SECRET, SENDGRID_API_KEY } from "./config.js";
 import User from "./models/user.js";
 import MongoStore from "connect-mongo";
-import nodemailer from 'nodemailer'
+import sgMail from '@sendgrid/mail'
+import crypto from 'crypto'
 
 const server = express();
 
@@ -43,14 +44,8 @@ server.use(
     })
 );
 
-// Configuracion de nodemailer
-const transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: {
-        user: GMAIL,
-        pass: GMAILPASS
-    }
-})
+// Configuracion de SendGrid
+sgMail.setApiKey(SENDGRID_API_KEY)
 
 // Ruta para registrar un nuevo usuario
 server.post("/register", async (req, res) => {
@@ -94,26 +89,17 @@ server.post("/register", async (req, res) => {
             subject: `Por favor verifica tu email haciendo clic en el siguiente enlace:\n\n
             http://localhost:${PORT}/verify-email/${verificationToken}\n\n`
         }
+        
+        await sgMail.send(mailOptions)
 
-
-        transporter.sendMail(mailOptions, (err, res) => {
-            if (err) {
-                console.error(`SERVER:`.green +
-                ` Error trying to send a validation email, with the following data \n Username: ${username} \n Email: ${email} \n Password: ***** \n ` +
-                `ESTATUS: (500) `.red +
-                `${err} \n`)
-                return res.status(500).send({message:"error sending mail"})
-            }
-            res.status(201).send({message:""})
-        })
-
-        const user = new User({ username, password: hashedPassword, email, verifi });
-        await user.save();
-        res.status(201).send({ message: "Usuario creado", userId: user._id });
+        const user = new User({ username, password: hashedPassword, email, verificationToken });
+            await user.save();
+            res.status(201).send({ message: "Usuario creado", userId: user._id });
         console.log(
             `SERVER:`.green +
             ` New user created \n ID: ${user._id} \n Username: ${username} \n Email: ${email} \n HashedPassword: ${hashedPassword} \n`
         );
+
     } catch (error) {
         res
             .status(400)
@@ -194,6 +180,25 @@ server.post('/logout', (req, res) => {
             `session closed. \n `)
     })
 })
+
+// Ruta de validacion de correos
+server.get('/verify-email/:token', async (req, res) => {
+    const { token } = req.params;
+
+    const user = await User.findOne({ verificationToken: token });
+    if (!user) {
+        return res.status(400).send({ message: 'Invalid token' });
+    }
+
+    if (user.isVerified) {
+        return res.status(400).send({ message: 'Email already verified' });
+    }
+
+    user.isVerified = true;
+    await user.save();
+
+    res.send({ message: 'Email verified successfully!' });
+});
 
 // Validación de campos
 class Validation {
