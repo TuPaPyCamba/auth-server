@@ -85,16 +85,17 @@ server.post("/register", async (req, res) => {
 
         const mailOptions = {
             to: email,
-            from: 'fercambafcm@gamil.com',
-            subject: `Por favor verifica tu email haciendo clic en el siguiente enlace:\n\n
-            http://localhost:${PORT}/verify-email/${verificationToken}\n\n`
+            from: 'fercambafcm@gmail.com',
+            subject: 'Por favor verifica tu email haciendo clic en el siguiente enlace:',
+            text: `Por favor verifica tu email haciendo clic en el siguiente enlace:\n\n http://localhost:${PORT}/verify-email/${verificationToken}\n\n`,
+            html: `<p>Por favor verifica tu email haciendo clic en el siguiente enlace:</p><a href="http://localhost:${PORT}/verify-email/${verificationToken}">Verificar Email</a>`
         }
-        
+
         await sgMail.send(mailOptions)
 
         const user = new User({ username, password: hashedPassword, email, verificationToken });
-            await user.save();
-            res.status(201).send({ message: "Usuario creado", userId: user._id });
+        await user.save();
+        res.status(201).send({ message: "Usuario creado", userId: user._id });
         console.log(
             `SERVER:`.green +
             ` New user created \n ID: ${user._id} \n Username: ${username} \n Email: ${email} \n HashedPassword: ${hashedPassword} \n`
@@ -108,7 +109,7 @@ server.post("/register", async (req, res) => {
             `SERVER:`.green +
             ` Error when trying to create a new User, with the following data \n Username: ${username} \n Email: ${email} \n Password: ***** \n ` +
             `ESTATUS: (400) `.red +
-            `${error.message} \n`
+            `${error} \n`
         );
     }
 });
@@ -200,6 +201,15 @@ server.get('/verify-email/:token', async (req, res) => {
     res.send({ message: 'Email verified successfully!' });
 });
 
+// Inicialización del Servidor
+server.listen(PORT, () => {
+    console.log(
+        `SERVER: `.green +
+        `Authentication services running correctly on the following port \n \n service route:  ` +
+        `http://localhost:${PORT} \n`.blue
+    );
+});
+
 // Validación de campos
 class Validation {
     static username(username) {
@@ -224,12 +234,3 @@ class Validation {
             throw new Error("email is not valid")
     }
 }
-
-// Inicialización del Servidor
-server.listen(PORT, () => {
-    console.log(
-        `SERVER: `.green +
-        `Authentication services running correctly on the following port \n \n service route:  ` +
-        `http://localhost:${PORT} \n`.blue
-    );
-});

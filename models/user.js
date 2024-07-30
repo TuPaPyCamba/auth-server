@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
         trim: true,
         match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     },
-    verificarionToken: {
+    verificationToken: {
         type: String,
         required: true,
     },
